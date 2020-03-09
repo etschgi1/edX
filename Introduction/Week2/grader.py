@@ -1,4 +1,4 @@
-from math import tan, pi
+from math import tan, pi  # imports tangent function and pi from math lib
 
 
 def polysum(n, s):
