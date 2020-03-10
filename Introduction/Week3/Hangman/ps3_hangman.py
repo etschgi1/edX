@@ -9,8 +9,10 @@
 
 import random
 import string
+import sys
 
-WORDLIST_FILENAME = "Introduction/Week3/Hangman/words.txt"
+WORDLIST_FILENAME = "words.txt"
+ALT_WORDLIST_FILENAME = "Introduction/Week3/Hangman/words.txt"
 
 
 def loadWords():
@@ -22,7 +24,10 @@ def loadWords():
     """
     print("Loading word list from file...")
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r')
+    try:
+        inFile = open(WORDLIST_FILENAME, 'r')
+    except FileNotFoundError:
+        inFile = open(ALT_WORDLIST_FILENAME, 'r')
     # line: string
     line = inFile.readline()
     # wordlist: list of strings
@@ -38,9 +43,6 @@ def chooseWord(wordlist):
     Returns a word from wordlist at random
     """
     return random.choice(wordlist)
-
-# end of helper code
-# -----------------------------------
 
 
 # Load the list of words into the variable wordlist
@@ -132,7 +134,11 @@ def hangman(secretWord):
         print('You have '+str(guesses)+' guesses left.')
         print('Available letters: '+getAvailableLetters(lettersGuessed))
         userlet = input('Please guess a letter: ')
-        if userlet in lettersGuessed:
+        if len(userlet) != 1:
+            print('Please guess only 1 letter')
+            print("------------")
+
+        elif userlet in lettersGuessed:
             print("Oops! You've already guessed that letter: " +
                   str(getGuessedWord(secretWord, lettersGuessed)))
             print("------------")
@@ -142,7 +148,7 @@ def hangman(secretWord):
             word = getGuessedWord(secretWord, lettersGuessed)
             print('Good guess: '+str(word))
             print("------------")
-        else:
+        elif userlet not in secretWord:
             lettersGuessed.append(userlet)
             print("Oops! That letter is not in my word: " +
                   str(getGuessedWord(secretWord, lettersGuessed)))
@@ -150,5 +156,14 @@ def hangman(secretWord):
             print("------------")
 
 
-secretWord = chooseWord(wordlist).lower()
-hangman(secretWord)
+def startGame():
+    secretWord = chooseWord(wordlist).lower()
+    hangman(secretWord)
+
+
+while True:
+    userinput = input("Any key - try and guess a word? (q to quit)")
+    if userinput != 'q':
+        startGame()
+    else:
+        sys.exit()
