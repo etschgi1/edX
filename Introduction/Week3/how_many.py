@@ -7,6 +7,7 @@ animals['d'].append('dingo')
 
 def how_many(aDict):
     print(sum(len(v) for v in aDict.values()))
+    print(sum(map(len, aDict.values())))
 
 
 how_many(animals)
