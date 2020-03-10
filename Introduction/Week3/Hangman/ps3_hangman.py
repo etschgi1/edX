@@ -9,7 +9,7 @@
 
 import random
 
-WORDLIST_FILENAME = "words.txt"
+WORDLIST_FILENAME = "Introduction/Week3/Hangman/words.txt"
 
 
 def loadWords():
@@ -54,7 +54,14 @@ def isWordGuessed(secretWord, lettersGuessed):
     returns: boolean, True if all the letters of secretWord are in lettersGuessed;
       False otherwise
     '''
-    # FILL IN YOUR CODE HERE...
+    guessed = 0
+    for let in secretWord:
+        if let in lettersGuessed:
+            guessed += 1
+    if guessed == len(secretWord):
+        return True
+    else:
+        return False
 
 
 def getGuessedWord(secretWord, lettersGuessed):
@@ -96,12 +103,14 @@ def hangman(secretWord):
 
     Follows the other limitations detailed in the problem write-up.
     '''
-    # FILL IN YOUR CODE HERE...
+    print('Welcome to Hangman drawing a secret word...')
+    wordlen = len(secretWord)
+    print(f'Your secret word has  charakters!')
 
 
 # When you've completed your hangman function, uncomment these two lines
 # and run this file to test! (hint: you might want to pick your own
 # secretWord while you're testing)
 
-# secretWord = chooseWord(wordlist).lower()
-# hangman(secretWord)
+secretWord = chooseWord(wordlist).lower()
+hangman(secretWord)
