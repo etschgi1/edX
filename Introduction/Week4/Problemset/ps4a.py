@@ -1,7 +1,6 @@
 # The 6.00 Word Game
 
 import random
-import string
 
 VOWELS = 'aeiou'
 CONSONANTS = 'bcdfghjklmnpqrstvwxyz'
@@ -283,16 +282,23 @@ def playGame(wordList):
 
     2) When done playing the hand, repeat from step 1    
     """
-    # TO DO ... <-- Remove this comment when you code this function
-    # <-- Remove this line when you code the function
-    print("playGame not yet implemented.")
+    # establish game loop
+    while True:
+        # ask for input either r(replay) n(new hand) e(end game)
+        userin = input('Enter n to deal a new hand, r to replay the last hand,'
+                       ' or e to end game: ')
+    # end game if e is input
+
+    # check if replay is possible/
+    # if possible replay last hand
+    # if not possible print out message to play new hand first
+    # deal new hand if n is input / play hand
+    # save hand for later replay
 
 
-wordList = loadWords()
-playHand({'w': 1, 's': 1, 't': 2, 'a': 1, 'o': 1, 'f': 2}, wordList, 8)
 #
 # Build data structures used for entire session and play game
 #
-# if __name__ == '__main__':
-#     wordList = loadWords()
-#     playGame(wordList)
+if __name__ == '__main__':
+    wordList = loadWords()
+    playGame(wordList)
