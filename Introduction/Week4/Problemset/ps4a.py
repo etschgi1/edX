@@ -98,6 +98,7 @@ def displayHand(hand):
 
     hand: dictionary (string -> int)
     """
+    print('Current Hand: ', end="")
     for letter in hand.keys():
         for _ in range(hand[letter]):
             print(letter, end=" ")       # print all on the same line
@@ -282,18 +283,37 @@ def playGame(wordList):
 
     2) When done playing the hand, repeat from step 1    
     """
+    savedhand = {}
+    # whats valid for input
+    valid_input = ['r', 'n', 'e']
     # establish game loop
     while True:
         # ask for input either r(replay) n(new hand) e(end game)
         userin = input('Enter n to deal a new hand, r to replay the last hand,'
                        ' or e to end game: ')
+    # check for invalid commands
+        try:
+            assert userin in valid_input
+        except:
+            print('Invalid command.')
+            savedhand = '_'
     # end game if e is input
-
-    # check if replay is possible/
-    # if possible replay last hand
-    # if not possible print out message to play new hand first
+        if userin == 'e':
+            break
     # deal new hand if n is input / play hand
+        if userin == 'n':
+            newhand = dealHand(HAND_SIZE)
+            playHand(newhand, wordList, HAND_SIZE)
     # save hand for later replay
+            savedhand = newhand
+    # check if replay is possible/
+        if savedhand and userin == 'r':
+            # if possible replay last hand
+            playHand(savedhand, wordList, HAND_SIZE)
+    # if not possible print out message to play new hand first
+        if not savedhand:
+            print('You have not played a hand yet. '
+                  'Please play a new hand first!\n')
 
 
 #
