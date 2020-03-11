@@ -201,7 +201,11 @@ def calculateHandlen(hand):
     hand: dictionary (string-> int)
     returns: integer
     """
-    # TO DO... <-- Remove this comment when you code this function
+    assert type(hand) == dict
+    count = 0
+    for key in hand:
+        count += int(hand[key])
+    return count
 
 
 def playHand(hand, wordList, n):
