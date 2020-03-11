@@ -15,6 +15,7 @@ SCRABBLE_LETTER_VALUES = {
 # (you don't need to understand this helper code)
 
 WORDLIST_FILENAME = "Introduction/Week4/Problemset/words.txt"
+ALTWORDLIST_FILENAME = "words.txt"
 
 
 def loadWords():
@@ -26,7 +27,10 @@ def loadWords():
     """
     print("Loading word list from file...")
     # inFile: file
-    inFile = open(WORDLIST_FILENAME, 'r')
+    try:
+        inFile = open(WORDLIST_FILENAME, 'r')
+    except FileNotFoundError:
+        inFile = open(ALTWORDLIST_FILENAME, 'r')
     # wordList: list of strings
     wordList = []
     for line in inFile:
