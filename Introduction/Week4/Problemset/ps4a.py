@@ -1,5 +1,4 @@
 # The 6.00 Word Game
-
 import random
 
 VOWELS = 'aeiou'
