@@ -1,28 +1,15 @@
-class Weird(object):
-    def __init__(self, x, y):
-        self.y = y
-        self.x = x
+from time import time
 
-    def getX(self):
-        return x
+gen_start = time()
+print(sum(n for n in range(10000000)))
+gen_end = time()
+gen_time = gen_end - gen_start
 
-    def getY(self):
-        return y
+list_start = time()
+print(sum([n for n in range(10000000)]))
+list_end = time()
+list_time = list_end - list_start
 
-
-class Wild(object):
-    def __init__(self, x, y):
-        self.y = y
-        self.x = x
-
-    def getX(self):
-        return self.x
-
-    def getY(self):
-        return self.y
-
-
-X = 7
-Y = 8
-w = Weird(X, Y)
-print(w.getX())
+# generator is faster
+print(f'sum(n for n in range(10000000)) took {gen_time} secs')
+print(f'sum([n for n in range(10000000)]) took {list_time} secs')
