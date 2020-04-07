@@ -22,5 +22,6 @@ def fastfib(n, stored={}):
             return result
 
 
-for i in range(100):
-    print(fastfib(i))
+for i in range(50):
+    print("Fib number: "+str(i))
+    print(fib(i))
