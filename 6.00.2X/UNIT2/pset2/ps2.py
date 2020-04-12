@@ -18,6 +18,12 @@ import pylab
 #from ps2_verify_movement36 import testRobotMovement
 # If you get a "Bad magic number" ImportError, you are not using Python 3.6
 
+#Exceptions: Custom
+
+
+class WidthHeightError(Exception):
+    pass
+
 
 # === Provided class Position
 class Position(object):
