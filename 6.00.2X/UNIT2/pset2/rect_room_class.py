@@ -2,6 +2,7 @@
 # os.environ["OPENBLAS_NUM_THREADS"] = "1"
 import numpy as np
 import random
+import math
 
 
 class WidthHeightError(Exception):

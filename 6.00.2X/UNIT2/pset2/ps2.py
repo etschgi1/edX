@@ -6,6 +6,8 @@ import random
 import ps2_visualize
 import pylab
 
+import numpy as np
+
 ##################
 # Comment/uncomment the relevant lines, depending on which version of Python you have
 ##################
