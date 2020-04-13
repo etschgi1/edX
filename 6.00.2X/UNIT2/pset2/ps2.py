@@ -281,21 +281,22 @@ class StandardRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        # loop as long as you find position in room
-
+        # set temp position to check if temp is valid position
         temp = self.position.getNewPosition(self.direction,
                                             self.speed)
+        # if valid proceed and clean tile
         if self.room.isPositionInRoom(temp) == True:
             self.position = temp
+        # else loop as long using different directions till you get valid pos
         else:
             while True:
                 self.direction = random.random()*360
-                temp = self.position.getNewPosition(
-                    self.direction, self.speed)
+                temp = self.position.getNewPosition(self.direction, self.speed)
+                # same check as above
                 if self.room.isPositionInRoom(temp) == True:
                     self.position = temp
                     break
-
+        # clean tile at valid position
         self.room.cleanTileAtPosition(self.position)
 
 
