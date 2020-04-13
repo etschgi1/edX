@@ -209,7 +209,11 @@ class Robot(object):
         room:  a RectangularRoom object.
         speed: a float (speed > 0)
         """
-        raise NotImplementedError
+        self.room = room
+        self.speed = speed
+        self.position = room.getRandomPosition()
+        # sets up random direction 0<=direction<360
+        self.direction = random.random()*360
 
     def getRobotPosition(self):
         """
@@ -217,7 +221,7 @@ class Robot(object):
 
         returns: a Position object giving the robot's position.
         """
-        raise NotImplementedError
+        return self.position
 
     def getRobotDirection(self):
         """
@@ -226,23 +230,25 @@ class Robot(object):
         returns: an integer d giving the direction of the robot as an angle in
         degrees, 0 <= d < 360.
         """
-        raise NotImplementedError
+        return self.direction
 
     def setRobotPosition(self, position):
         """
         Set the position of the robot to POSITION.
 
         position: a Position object.
+        no return!
         """
-        raise NotImplementedError
+        self.position = position
 
     def setRobotDirection(self, direction):
         """
         Set the direction of the robot to DIRECTION.
 
         direction: integer representing an angle in degrees
+        no return!
         """
-        raise NotImplementedError
+        self.direction = direction
 
     def updatePositionAndClean(self):
         """
@@ -251,6 +257,7 @@ class Robot(object):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
+
         raise NotImplementedError  # don't change this!
 
 
