@@ -21,4 +21,4 @@ def create_test_pos(num, room):
 # print(calcCoverage(testroom))
 
 print("---------------------")
-print(runSimulation(5, 5.0, 100, 100, 0.8, 2, StandardRobot))
+print(runSimulation(1, 0.5, 10, 10, 1.0, 1, StandardRobot))

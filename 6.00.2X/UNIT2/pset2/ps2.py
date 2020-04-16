@@ -323,10 +323,11 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 RandomWalkRobot)
     """
-    # keep track of times
     times = []
     while 0 < num_trials:
         timestep = 0
+        anim = ps2_visualize.RobotVisualization(
+            num_robots, width, height, 0.05)
         # loop for each simultation run num_trials times:
         room = RectangularRoom(width, height)
         # initialise robots in list:
@@ -339,9 +340,11 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
             # every robot updates pos and cleans tile:
             for robot in robots:
                 robot.updatePositionAndClean()
+                anim.update(room, robots)
             #timestep +1
             timestep += 1
         # add time of simulation to simulations times
+        anim.done()
         times.append(timestep)
         #num_trial -1
         num_trials -= 1
@@ -359,6 +362,7 @@ def calcCoverage(room):
     return room.getNumCleanedTiles()/room.getNumTiles()
 
 
+print(runSimulation(1, 1.0, 10, 12, 0.96, 1, StandardRobot))
 # Uncomment this line to see how much your simulation takes on average
 ##print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
 
