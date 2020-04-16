@@ -14,8 +14,11 @@ def create_test_pos(num, room):
     return out
 
 
-testroom = create_test_room(5, 10)
-pos = create_test_pos(5, testroom)
-print(testroom, pos)
-testroom.cleanTileAtPosition(pos[0])
-print(testroom.show_array())
+# testroom = create_test_room(3, 1)
+# pos = create_test_pos(5, testroom)
+# testroom.cleanTileAtPosition(pos[0])
+# print(testroom.show_array())
+# print(calcCoverage(testroom))
+
+print("---------------------")
+print(runSimulation(5, 5.0, 100, 100, 0.8, 2, StandardRobot))
