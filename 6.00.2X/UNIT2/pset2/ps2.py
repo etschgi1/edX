@@ -13,14 +13,14 @@ import numpy as np
 ##################
 
 # For Python 3.5:
-#from ps2_verify_movement35 import testRobotMovement
+# from ps2_verify_movement35 import testRobotMovement
 # If you get a "Bad magic number" ImportError, you are not using Python 3.5
 
 # For Python 3.6:
-#from ps2_verify_movement36 import testRobotMovement
+# from ps2_verify_movement36 import testRobotMovement
 # If you get a "Bad magic number" ImportError, you are not using Python 3.6
 
-#Exceptions: Custom
+# Exceptions: Custom
 
 
 class WidthHeightError(Exception):
@@ -265,6 +265,8 @@ class Robot(object):
 
 
 # === Problem 3
+
+
 class StandardRobot(Robot):
     """
     A StandardRobot is a Robot with the standard movement strategy.
@@ -300,8 +302,65 @@ class StandardRobot(Robot):
         self.room.cleanTileAtPosition(self.position)
 
 
+class Smartrobot(Robot):
+    """
+    Hint not so smart yet
+    A Smartrobot is a Robot with the smart movement strategy.
+
+    At each time-step, a Smartrobot attempts to move in its current
+    direction; when it would hit a wall or a cleaned block, it *instead*
+    chooses a new direction either 90° turn right or left
+    """
+
+    def updatePositionAndClean(self):
+        """
+        Simulate the passage of a single time-step.
+
+        Move the robot to a new position and mark the tile it is on as having
+        been cleaned.
+        """
+        # for first move change direction to a multiple of 90°
+        if self.room.getNumCleanedTiles() == 1:
+            self.setRobotDirection(random.choice([0, 90, 180, 270]))
+        # move until wall collision
+        temp = self.position.getNewPosition(self.direction, self.speed)
+        # get position
+        pos = temp
+        x = int(pos.getX())
+        y = int(pos.getY())
+        # Check if Temp is valid
+        if self.room.isPositionInRoom(temp) == True:
+            # if temp not cleaned move on
+            if self.room.isTileCleaned(x, y) == False:
+                self.position = temp
+                self.room.cleanTileAtPosition(self.position)
+                return None
+            # if cleaned
+            else:
+                self.direction = random.choice([0, 90, 180, 270])
+                self.position = temp
+                self.room.cleanTileAtPosition(self.position)
+                return None
+
+        # if on border
+        elif self.room.isPositionInRoom(temp) == False:
+            while True:
+                if self.direction < 270:
+                    self.direction += 90
+                else:
+                    self.direction = 0
+                temp = self.position.getNewPosition(self.direction, self.speed)
+                if self.room.isPositionInRoom(temp) == True:
+                    self.position = temp
+                    break
+
+        # if theres no clean tile choose a multiple of 90° at random
+
+        # clean tile
+        self.room.cleanTileAtPosition(self.position)
+
 # Uncomment this line to see your implementation of StandardRobot in action!
-##testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
@@ -326,8 +385,8 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     times = []
     while 0 < num_trials:
         timestep = 0
-        anim = ps2_visualize.RobotVisualization(
-            num_robots, width, height, 0.05)
+        # anim = ps2_visualize.RobotVisualization(
+        # num_robots, width, height, 0.08)
         # loop for each simultation run num_trials times:
         room = RectangularRoom(width, height)
         # initialise robots in list:
@@ -340,13 +399,13 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
             # every robot updates pos and cleans tile:
             for robot in robots:
                 robot.updatePositionAndClean()
-                anim.update(room, robots)
-            #timestep +1
+                #anim.update(room, robots)
+            # timestep +1
             timestep += 1
         # add time of simulation to simulations times
-        anim.done()
+        # anim.done()
         times.append(timestep)
-        #num_trial -1
+        # num_trial -1
         num_trials -= 1
 
     # calculate mean number of time steps
@@ -354,7 +413,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
 
 
 def calcCoverage(room):
-    """[input room. returns a val between 0 and 1 which translates to 
+    """[input room. returns a val between 0 and 1 which translates to
     percentage of room cleaned]
     Arguments:
         room {[room-type]} -- [Room which is cleaned by robots]
@@ -362,9 +421,8 @@ def calcCoverage(room):
     return room.getNumCleanedTiles()/room.getNumTiles()
 
 
-print(runSimulation(1, 1.0, 10, 12, 0.96, 1, StandardRobot))
 # Uncomment this line to see how much your simulation takes on average
-##print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+#print(runSimulation(1, 1.0, 10, 10, 1, 30, Smartrobot))
 
 
 # === Problem 5
@@ -381,26 +439,50 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        # added one line to make it random for normal step
+        self.direction = random.random()*360
+        # set temp position to check if temp is valid position
+        temp = self.position.getNewPosition(self.direction,
+                                            self.speed)
+        # if valid proceed and clean tile
+        if self.room.isPositionInRoom(temp) == True:
+            self.position = temp
+        # else loop as long using different directions till you get valid pos
+        else:
+            while True:
+                self.direction = random.random()*360
+                temp = self.position.getNewPosition(self.direction, self.speed)
+                # same check as above
+                if self.room.isPositionInRoom(temp) == True:
+                    self.position = temp
+                    break
+        # clean tile at valid position
+        self.room.cleanTileAtPosition(self.position)
 
 
 def showPlot1(title, x_label, y_label):
     """
-    What information does the plot produced by this function tell you?
+    Plots num of robots against time for standard and random walk
+    robot subclass
     """
     num_robot_range = range(1, 11)
     times1 = []
     times2 = []
+    times3 = []
     for num_robots in num_robot_range:
         print("Plotting", num_robots, "robots...")
         times1.append(runSimulation(num_robots, 1.0,
                                     20, 20, 0.8, 20, StandardRobot))
         times2.append(runSimulation(num_robots, 1.0,
                                     20, 20, 0.8, 20, RandomWalkRobot))
+        times3.append(runSimulation(num_robots, 1.0,
+                                    20, 20, 0.8, 20, Smartrobot))
     pylab.plot(num_robot_range, times1)
     pylab.plot(num_robot_range, times2)
+    pylab.plot(num_robot_range, times3)
     pylab.title(title)
-    pylab.legend(('StandardRobot', 'RandomWalkRobot'))
+    pylab.legend(('StandardRobot', 'RandomWalkRobot',
+                  'SmartRobot(not so smart)'))
     pylab.xlabel(x_label)
     pylab.ylabel(y_label)
     pylab.show()
@@ -413,19 +495,25 @@ def showPlot2(title, x_label, y_label):
     aspect_ratios = []
     times1 = []
     times2 = []
-    for width in [10, 20, 25, 50]:
+    times3 = []
+    for width in [10, 20, 25, 30]:
         height = 300//width
         print("Plotting cleaning time for a room of width:",
               width, "by height:", height)
         aspect_ratios.append(float(width) / height)
         times1.append(runSimulation(
-            2, 1.0, width, height, 0.8, 200, StandardRobot))
+            2, 1.0, width, height, 0.8, 20, StandardRobot))
         times2.append(runSimulation(
-            2, 1.0, width, height, 0.8, 200, RandomWalkRobot))
+            2, 1.0, width, height, 0.8, 20, RandomWalkRobot))
+        times3.append(runSimulation(
+            2, 1.0, width, height, 0.8, 20, Smartrobot))
+    print(aspect_ratios)
     pylab.plot(aspect_ratios, times1)
     pylab.plot(aspect_ratios, times2)
+    pylab.plot(aspect_ratios, times3)
     pylab.title(title)
-    pylab.legend(('StandardRobot', 'RandomWalkRobot'))
+    pylab.legend(('StandardRobot', 'RandomWalkRobot',
+                  'SmartRobot(not so smart)'))
     pylab.xlabel(x_label)
     pylab.ylabel(y_label)
     pylab.show()
@@ -439,12 +527,14 @@ def showPlot2(title, x_label, y_label):
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+showPlot1("Time It Takes 1 - 10 Robots To Clean 80% Of A 20x20 Room",
+          "Robots", "Cleaning Time in Ticks")
 #
 
 #
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+showPlot2("Time It Takes Two Robots To Clean 80% Of Variously Shaped Rooms",
+          "Aspect Ratio", "Cleaning Time in Ticks")
 #
