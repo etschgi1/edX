@@ -28,14 +28,15 @@ def runsim(Trails, numTrials):
     Returns the st dev '''
     results = []
     for Trail in range(Trails):
+        print(Trail)
         results.append(noReplacementSimulation(numTrials))
     stddev = stat.stdev(results)
     mean = stat.mean(results)
     return results, stddev, mean
 
 
-Trials = 100
-numTrials = 75000
+Trials = 200
+numTrials = 5000
 bins = 20
 r, rd, rm = runsim(Trials, numTrials)
 r2, rd2, rm2 = runsim(Trials, numTrials)
