@@ -232,13 +232,13 @@ def simulationWithoutDrug(numViruses, maxPop, maxBirthProb, clearProb,
     ax.plot(time, avgavgsize)
     ax.set(xlabel='time', ylabel='Avg. Viruses',
            title='Average viruses in body at each timestep')
-    plt.show()
+    # plt.show()
 
-    # Plot
+
     #
     # PROBLEM 3
     #
-simulationWithoutDrug(100, 1000, 0.1, 0.05, 100)
+simulationWithoutDrug(100, 1000, 0.1, 0.05, 3)
 
 
 class ResistantVirus(SimpleVirus):
