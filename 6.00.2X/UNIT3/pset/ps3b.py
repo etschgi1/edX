@@ -188,13 +188,59 @@ def simulationWithoutDrug(numViruses, maxPop, maxBirthProb, clearProb,
     clearProb: Maximum clearance probability (a float between 0-1)
     numTrials: number of simulation runs to execute (an integer)
     """
+    # var for updates/timeticks
+    totupdates = 300
+    # list for average size
+    avgsize = []
+    # for numTrials perform:
+    for Trial in range(numTrials):
+        # for average size per timestep
+        avgsizetrial = []
+        timestep = 0
+        # initiate viruses for patient
+        viruses = []
+        for virus in range(numViruses):
+            viruses.append(SimpleVirus(maxBirthProb, clearProb))
+        # initiate patient
+        testsubject = Patient(viruses, maxPop)
+        # simulate 300 changes to viruspop i.e. 300x update
+        for step in range(totupdates):
+            # update and ad value to list
+            avgsizetrial.append(testsubject.update())
+            timestep += 1
+        avgsize.append(avgsizetrial)
+    # calc average of trials per timeste
+    avgavgsize = []
+    for datapoint in range(totupdates):
+        summe = 0
+        for traildatapoint in range(numTrials):
+            summe += avgsize[traildatapoint][datapoint]
+        avgavgsize.append(summe/numTrials)
+    # create time scale for plotting
+    time = [t for t in range(totupdates)]
 
-    # TODO
+    # plot code for edX
+    # pylab.plot(avgavgsize, label = "SimpleVirus")
+    # pylab.title("SimpleVirus simulation")
+    # pylab.xlabel("Time Steps")
+    # pylab.ylabel("Average Virus Population")
+    # pylab.legend(loc = "best")
+    # pylab.show()
+
+    # plot average size of the virus pop as func of time
+    fig, ax = plt.subplots()
+    ax.plot(time, avgavgsize)
+    ax.set(xlabel='time', ylabel='Avg. Viruses',
+           title='Average viruses in body at each timestep')
+    plt.show()
+
+    # Plot
+    #
+    # PROBLEM 3
+    #
+simulationWithoutDrug(100, 1000, 0.1, 0.05, 100)
 
 
-#
-# PROBLEM 3
-#
 class ResistantVirus(SimpleVirus):
     """
     Representation of a virus which can have drug resistance.
