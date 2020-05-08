@@ -34,7 +34,7 @@ def simulationWithoutDrug2(numViruses, maxPop, maxBirthProb, clearProb,
             # update and ad value to list
             toAdd = testsubject.update()
             avgsize[step] += toAdd
-    # calc average of trials per timeste for every update: data/numTrials
+    # calc average of trials per timestep for every update: data/numTrials
     for datapoint in range(totupdates):
         avgsize[datapoint] = avgsize[datapoint]/numTrials
 
@@ -43,9 +43,11 @@ def simulationWithoutDrug2(numViruses, maxPop, maxBirthProb, clearProb,
     ax.plot(avgsize)
     ax.set(xlabel='time', ylabel='Avg. Viruses',
            title='Average viruses in body at each timestep')
-    # plt.show()
+    plt.show()
 
 
+simulationWithoutDrug2(100, 1000, 0.1, 0.05, 50)
+'''
 for i in [1, 5, 10, 100, 200]:
     print("Current:{}".format(i))
     start = time.time()
@@ -55,4 +57,4 @@ for i in [1, 5, 10, 100, 200]:
     simulationWithoutDrug2(10, 50, 0.1, 0.05, i)
     print("Ende neu: {}".format(time.time()-start))
     time.sleep(2)
-time.sleep(5)
+time.sleep(5)'''
