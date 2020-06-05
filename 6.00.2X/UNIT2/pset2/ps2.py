@@ -422,7 +422,7 @@ def calcCoverage(room):
 
 
 # Uncomment this line to see how much your simulation takes on average
-#print(runSimulation(1, 1.0, 10, 10, 1, 1, RandomWalkRobot))
+#print(runSimulation(1, 1.0, 10, 10, 1, 1, StandardRobot))
 
 
 # === Problem 5
@@ -499,7 +499,7 @@ def showPlot2(title, x_label, y_label):
     times1 = []
     times2 = []
     times3 = []
-    for width in [10, 20, 25, 30]:
+    for width in [10, 17.32, 20, 25, 30]:
         height = 300//width
         print("Plotting cleaning time for a room of width:",
               width, "by height:", height)

@@ -23,5 +23,5 @@ def get_partitions(set_):
 # to see what get_partitions does if you want to visualize it:
 
 
-# for item in (get_partitions(['a', 'b', 'c'])):
-#     print(item)
+for item in (get_partitions(['a', 'b', 'c'])):
+    print(item)

@@ -36,7 +36,7 @@ def runsim(Trails, numTrials):
 
 
 Trials = 200
-numTrials = 5000
+numTrials = 50
 bins = 20
 r, rd, rm = runsim(Trials, numTrials)
 r2, rd2, rm2 = runsim(Trials, numTrials)
